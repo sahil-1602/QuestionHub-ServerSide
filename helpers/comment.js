@@ -10,6 +10,7 @@ exports.addComment = function(req, res){
         Comment.create(req.body)
         .then(function(comment){
             comment.save();
+            // res.json(comment);
             foundQuestion.comments.push(comment);
             foundQuestion.save();
             res.json(foundQuestion);
@@ -23,7 +24,40 @@ exports.addComment = function(req, res){
     })
 }
 
+//GETTING A NEW COMMENT
+exports.getComment = function(req, res){
+    Comment.findById({_id: req.params.commentId})
+    .then(function(comment){
+        res.json(comment);
+    })
+    .catch(function(err){
+        res.send(err);
+    })
+}
+
 //UPDATING COMMENT
+exports.updateComment = function(req, res){
+    Question.findById({_id: req.params.questionId})
+    .then(function(foundQuestion){
+        Comment.findByIdAndUpdate({text: req.body.text})
+        .then(function(comment){
+            comment.save();
+            foundQuestion.comments.map(com => {
+                if(com.author.id === comment.author.id){
+                    com = comment;
+                }
+            })
+            foundQuestion.save();
+            res.json(foundQuestion);
+        })
+        .catch(function(err){
+            res.send(err);
+        })
+    })
+    .catch(function(err){
+        res.send(err);
+    })
+}
 
 
 

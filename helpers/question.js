@@ -25,6 +25,27 @@ exports.addQuestion = function(req, res){
 }
 
 //UPDATE QUESTION
+exports.updateQuestion = function(req, res){
+    var query = req.body.query;
+    var description = req.body.description;
+    var img = req.body.img;
+    var isOpen = req.body.isOpen;
+
+    Question.findById({_id: req.params.questionId})
+    .then(function(question){
+        return Object.assign(question, 
+            {query: query, description: description, img:img, isOpen: isOpen});
+    })
+    .then(function(question){
+        return question.save();
+    })
+    .then(function(updatedQuestion){
+        res.json(updatedQuestion);
+    })
+    .catch(function(err){
+        res.send(err);
+    });
+}
 
 
 //GET QUESTION BY ID

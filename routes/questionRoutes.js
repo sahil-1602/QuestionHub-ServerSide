@@ -6,6 +6,6 @@ var helpers = require('../helpers/question');
 
 //code will go here
 router.route('/').get(helpers.getQuestions).post(helpers.addQuestion);
-router.route('/:questionId').get(helpers.readQuestion).delete(helpers.deleteQuestion);
+router.route('/:questionId').get(helpers.readQuestion).put(helpers.updateQuestion).delete(helpers.deleteQuestion);
 
 module.exports = router;
