@@ -38,37 +38,49 @@ exports.getComment = function(req, res){
 
 //UPDATING COMMENT
 exports.updateComment = function(req, res){
+
+    var text = req.body.text;
+    console.log(text);
+
     Question.findById({_id: req.params.questionId})
     .then(function(foundQuestion){
-        Comment.findByIdAndUpdate({text: req.body.text})
+        Comment.findById({_id: req.params.commentId})
         .then(function(comment){
-            comment.save();
-            foundQuestion.comments.map(com => {
-                if(com.author.id === comment.author.id){
-                    com = comment;
-                }
-            })
-            foundQuestion.save();
-            res.json(foundQuestion);
+            return Object.assign(comment, 
+            {text: text});
+        })
+        .then(function(comment){
+        return comment.save();
+        })
+        .then(function(updatedComment){
+            res.json(updatedComment);
         })
         .catch(function(err){
             res.send(err);
-        })
+        });
     })
     .catch(function(err){
         res.send(err);
-    })
+    }); 
 }
 
 
 //DELETING COMMENT
 exports.deleteComment = function(req, res){
-    Comment.remove({_id: req.params.commentId})
-    .then(function(){
-        res.json({message: "We deleted your comment"});
-    })
-    .catch(function(err){
-        res.send(err)
+    Question.findById({_id: req.params.questionId})
+    .then(function(foundQuestion){
+        foundQuestion.comments = foundQuestion.comments
+                                    .filter((comment) => (
+                                        comment != req.params.commentId
+                                    ));
+        foundQuestion.save();
+        Comment.remove({_id: req.params.commentId})
+        .then(function(){
+            res.json({message: "We deleted your comment"});
+        })
+        .catch(function(err){
+            res.send(err)
+        })
     })
 }
 

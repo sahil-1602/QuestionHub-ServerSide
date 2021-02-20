@@ -5,6 +5,8 @@ var Comment = require('../models');
 var helpers = require('../helpers/comment');
 
 router.route('/:questionId').post(helpers.addComment);
-router.route('/:questionId/:commentId').get(helpers.getComment);
+router.route('/:questionId/:commentId').get(helpers.getComment)
+                                        .put(helpers.updateComment)
+                                        .delete(helpers.deleteComment);
 
 module.exports = router;
