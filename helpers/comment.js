@@ -1,6 +1,7 @@
 var Question = require("../models/question");
 var Comment = require("../models/comment");
 
+
 //ADDING A NEW COMMENT
 exports.addComment = function(req, res){
     console.log(req.params.questionId);
@@ -10,6 +11,7 @@ exports.addComment = function(req, res){
         Comment.create(req.body)
         .then(function(comment){
             comment.save();
+            // res.json(comment);
             foundQuestion.comments.push(comment);
             foundQuestion.save();
             res.json(foundQuestion);
@@ -17,6 +19,17 @@ exports.addComment = function(req, res){
         .catch(function(err){
             res.send(err);
         })
+    })
+    .catch(function(err){
+        res.send(err);
+    })
+}
+
+//GETTING A NEW COMMENT
+exports.getComment = function(req, res){
+    Comment.findById({_id: req.params.commentId})
+    .then(function(comment){
+        res.json(comment);
     })
     .catch(function(err){
         res.send(err);
@@ -46,6 +59,7 @@ exports.updateComment = function(req, res){
         res.send(err);
     })
 }
+
 
 //DELETING COMMENT
 exports.deleteComment = function(req, res){
