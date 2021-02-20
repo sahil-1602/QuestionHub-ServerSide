@@ -1,4 +1,5 @@
 var Question = require("../models/question");
+var Comment = require('../models/comment');
 
 //GETTING ALL QUESTIONS
 exports.getQuestions = function(req, res){
@@ -68,6 +69,32 @@ exports.deleteQuestion = function(req, res){
     })
     .catch(function(err){
         res.send(err)
+    })
+}
+
+//GET ALL COMMENTS FOR A QUESTION
+exports.getComments = function(req, res){
+    var results = [];
+    Question.findById({_id: req.params.questionId})
+    .then(function(question){
+        var length = question.comments.length;
+        question.comments.map((commentId, i) => {
+            Comment.findById({_id: commentId})
+            .then(function(comment){
+                results.push(comment);
+                if(length === results.length){
+                    res.json(results);
+                }else{
+                    return;
+                }
+            })
+            .catch(function(err){
+                res.send(err);
+            })
+        })
+    })
+    .catch(function(err){
+        res.send(err);
     })
 }
 

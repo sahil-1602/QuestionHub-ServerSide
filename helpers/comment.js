@@ -1,6 +1,7 @@
 var Question = require("../models/question");
 var Comment = require("../models/comment");
 
+
 //ADDING A NEW COMMENT
 exports.addComment = function(req, res){
     console.log(req.params.questionId);
