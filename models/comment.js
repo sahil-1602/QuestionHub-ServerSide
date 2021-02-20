@@ -4,7 +4,7 @@ var commentSchema = new mongoose.Schema(
     {
         text : {
             type: String,
-            default: "hello ji"
+            default: "hello from Sumit"
         },
         author : {
             id : {
