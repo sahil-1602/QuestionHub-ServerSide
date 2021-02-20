@@ -98,4 +98,22 @@ exports.getComments = function(req, res){
     })
 }
 
+//GET ALL QUESTIONS FOR A USER
+exports.getUserQuestions = function(req, res){
+    var results = [];
+    Question.find()
+    .then(function(questions){
+        var length = questions.length;
+        for(var i=0; i<length; i++){
+            if(questions[i].author.id == req.params.userId){
+                results.push(questions[i]);
+            }
+        }
+        res.json(results);
+    })
+    .catch(function(err){
+        res.send(err);
+    });
+}
+
 module.exports = exports;

@@ -4,11 +4,9 @@ var questionSchema = new mongoose.Schema(
     {
         query : {
             type: String,
-            default: "how to fix this?"
         },
         description: {
             type: String,
-            default: "This is so and so thing.."
         },
         img: {
             type: String,
@@ -20,13 +18,10 @@ var questionSchema = new mongoose.Schema(
         },
         author : {
             id : {
-                type: String,
-                default: "1234"
+                type : mongoose.Schema.Types.ObjectId,
+                ref  : "User"
             },
-            username : {
-                type: String,
-                default: "question Schema"
-            }
+            username : String,
         },
         comments    : [
             {
