@@ -28,6 +28,15 @@ exports.addQuestion = function(req, res){
 
 
 //GET QUESTION BY ID
+exports.readQuestion = function(req, res){
+    Question.findById({_id: req.params.questionId})
+    .then(function(foundQuestion){
+        res.json(foundQuestion);
+    })
+    .catch(function(err){
+        res.send(err);
+    })
+}
 
 
 //DELETE QUESTION

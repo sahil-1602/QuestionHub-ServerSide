@@ -24,7 +24,7 @@ app.get('/', function(req, res){
 })
 
 app.use('/api/question', questionRoutes);
-app.use('/api/comment/:questionId', commentRoutes);
+app.use('/api/comment/', commentRoutes);
 
 app.listen(8000, function(){
     console.log("Api server started");
