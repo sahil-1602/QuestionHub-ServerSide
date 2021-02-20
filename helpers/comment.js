@@ -61,7 +61,15 @@ exports.updateComment = function(req, res){
 }
 
 
-
 //DELETING COMMENT
+exports.deleteComment = function(req, res){
+    Comment.remove({_id: req.params.commentId})
+    .then(function(){
+        res.json({message: "We deleted your comment"});
+    })
+    .catch(function(err){
+        res.send(err)
+    })
+}
 
 module.exports = exports;
