@@ -24,9 +24,38 @@ exports.addComment = function(req, res){
 }
 
 //UPDATING COMMENT
-
-
+exports.updateComment = function(req, res){
+    Question.findById({_id: req.params.questionId})
+    .then(function(foundQuestion){
+        Comment.findByIdAndUpdate({text: req.body.text})
+        .then(function(comment){
+            comment.save();
+            foundQuestion.comments.map(com => {
+                if(com.author.id === comment.author.id){
+                    com = comment;
+                }
+            })
+            foundQuestion.save();
+            res.json(foundQuestion);
+        })
+        .catch(function(err){
+            res.send(err);
+        })
+    })
+    .catch(function(err){
+        res.send(err);
+    })
+}
 
 //DELETING COMMENT
+exports.deleteComment = function(req, res){
+    Comment.remove({_id: req.params.commentId})
+    .then(function(){
+        res.json({message: "We deleted your comment"});
+    })
+    .catch(function(err){
+        res.send(err)
+    })
+}
 
 module.exports = exports;
