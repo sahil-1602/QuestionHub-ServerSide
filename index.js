@@ -5,7 +5,8 @@ var express               = require("express"),
     User                  = require("./models/user"),
     LocalStrategy         = require("passport-local"),
     passportLocalMongoose = require("passport-local-mongoose"),
-    passport              = require("passport");
+    passport              = require("passport"),
+    cors                  = require('cors');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -60,6 +61,7 @@ app.use('/api/question', questionRoutes);
 app.use('/api/comment/', commentRoutes);
 app.use('/api/register', register);
 app.use('/api/login', login);
+app.use(cors());
 
 app.listen(8000, function(){
     console.log("Api server started");
